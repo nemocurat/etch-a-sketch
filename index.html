@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+
+<style>
+
+#master {
+
+--gridColumns: 50;
+display:grid;
+width: 604px;
+height: 604px;
+grid-template-columns: repeat(var(--gridColumns), 1fr);
+
+}
+
+.clear {
+margin-bottom: 20px;
+}
+
+.set-grid {
+margin-bottom: 20px;
+}
+
+.child {
+background-color: gray;
+height: 1fr;
+width: 1fr;
+border-style: solid;	
+border-width: thin;
+border-color: blue;
+
+}
+
+</style>
+<head>
+  <title>Etch-a-Sketch</title>
+  <meta charset="UTF-8"/>
+</head>
+<body>
+	<button class='clear' onclick='resetColors()'>Clear</button>
+	<button class='set-grid' onclick='setGrid()'>Set Grid</button>
+	<button class='set-grid' onclick="eraseGrid('master')">Erase Grid</button>
+	<button class='set-grid' onclick='setBg()'>Random Color</button>
+	<button class='set-grid' onclick='blackBg()'>Shades Of Black</button>
+	<div id='master'>
+	
+	</div>
+  <script>
+  
+  let cellNum = 2500;
+ 
+  createGrid();
+  
+  function createGrid () {
+  for (i = 0; i < cellNum; i++) {
+   let dynamicDiv = document.createElement('div');
+	dynamicDiv.innerHTML = "";
+	document.getElementById('master').appendChild(dynamicDiv);
+	dynamicDiv.className = 'child';
+	dynamicDiv.id = 'child' + i;
+	};
+	
+  for (i = 0; i < cellNum; i++) {
+	
+  let squareDiv = document.getElementById('child' + i);
+  squareDiv.onmouseover = function() {
+    squareDiv.style.backgroundColor = 'black';
+	};
+  };
+  }
+  
+  
+  function resetColors () {
+  
+  for (i = 0; i < cellNum; i++) {
+  let squareDiv = document.getElementById('child' + i);
+  squareDiv.style.backgroundColor = 'gray';
+  
+  }
+  }
+  
+  function setGrid () {
+  let columnNum = prompt('Set number of squares per side', '');
+  cellNum2 = columnNum * columnNum;
+  master.style.setProperty('--gridColumns', columnNum);
+  
+  eraseGrid('master');
+  
+  for (i = 0; i < cellNum2; i++) {
+   let dynamicDiv = document.createElement('div');
+	dynamicDiv.innerHTML = "";
+	document.getElementById('master').appendChild(dynamicDiv);
+	dynamicDiv.className = 'child';
+	dynamicDiv.id = 'child' + i;
+	};
+	
+	for (i = 0; i < cellNum2; i++) {
+	
+		let squareDiv = document.getElementById('child' + i);
+		squareDiv.onmouseover = function() {
+		squareDiv.style.backgroundColor = 'black';
+		};
+	};
+  
+  }
+  
+  function eraseGrid (elementID) {
+    document.getElementById(elementID).innerHTML = "";
+}
+  
+  
+  
+  function setBg () {
+  
+	for (i = 0; i < cellNum; i++) {
+	let randomColor = Math.floor(Math.random()*16777215).toString(16);
+	let boxes = document.getElementById('child' + i);
+	  boxes.onmouseover = function() {
+	  boxes.style.backgroundColor = '#' + randomColor;
+	  }
+	}
+  }
+
+  
+  function blackBg () {
+    
+    for (i = 0; i < cellNum; i++) {
+	let cells = document.getElementById('child' + i);
+		cells.onmouseover = function() {
+		cells.style.backgroundColor = 'black';
+		let currentOpacity = Number(cells.style.opacity);
+		let newOpacity = currentOpacity + 0.1;
+		cells.style.opacity = 0.1+currentOpacity;
+		}
+	}
+  }
+
+  
+
+  
+  </script>
+</body>
+</html>
